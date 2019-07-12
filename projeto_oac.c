@@ -11,8 +11,7 @@
      if(palavra[i] == *caractere){
        contador++;
      }
-
-     printf("A palavra possui exatamente %d letras %c",contador,caractere);
    }
+  printf("A palavra possui exatamente %d letras %c", contador, *caractere);
   return 0;
 }
