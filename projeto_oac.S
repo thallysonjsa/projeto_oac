@@ -4,6 +4,18 @@
 .type main, @function
 
 main:
+
+    /*
+    1a Parte.
+    Estamos alocando as variaveis na memoria para que seja possivel executar a codigo.
+    call:
+    faz a chamada de operação do sistema,
+    memset:
+    -80, significa a parte da memoria que sera utilizada durante o programa inteiro,
+    e no final recebe a soma do valor 80, para zerar o sp.
+    Por fim, todos os loads e stores são feitos com base no sp.
+    */
+    
     addi  sp, sp, -80 #  sp =sp1 -80mm
     sw ra, 76(sp) #
     sw s0, 72(sp)
@@ -30,14 +42,29 @@ main:
     li s0, 0
     li s3, 117
 
+/* 
+.L3
+Funciona como o "for" do nosso codigo, 
+a4 funciona como um contador convencional +1.
+Faz uma checagem, se o valor contido no registrador a4 for diferente de a2, executa o .L3 (Continua o laço).
+Caso o contador chegue ao valor presente em a2, ou seja chegou a 99 iteracoes, finaliza o laco.
+*/
+
 .L3:
-    lbu a5, 0(a4)
+    lbu a5, 0(a4) 
     sub a5, a5, a3
     seqz a5, a5
     add s0, s0, a5
     addi a4, a4, 1
     bne a4, a2, .L3 # if a4 !a2t1.L3target
-    li a1, 117
+   
+   /*
+   Ultima parte,
+   Esse bloco de codigo eh responsavel por estar montando a string do printf,
+   com os respectivos valores armazenados nos registradores.
+   */
+   
+   li a1, 117
     lui a0, %hi(.LC1)
     addi a0, a0, %lo(.LC1)
     call printf
@@ -49,8 +76,18 @@ main:
     li a0, 0
     lw ra, 76(sp)
     lw s0, 72(sp)
-    addi sp, sp, 80
-    jr ra
+    
+    /* 
+    Faz soma imediata do valor 80 para zerar o sp.
+    */   
+    addi sp, sp, 80  
+    
+    /* 
+    Pula para o registrador de retorno, que encerra a operacao.
+    nesse caso, return 0.
+    */
+    jr ra 
+    
     .size main, .-main
     .section      .rodata
     .align 2
